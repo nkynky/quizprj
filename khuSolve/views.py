@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from django.template import loader
-from .models import Problems
+from .models import Problems, UserAnswer
 from django.db.models.aggregates import Count
 import random
 
@@ -14,13 +14,11 @@ def problems(request):
   return render(request,'problems.html',{'randomProblems':randomProblems})
 
 def checkAnswer(request):
-  checking = request.GET['answerText']
-  answer = Problems.objects.filter(body = "a1")
-  if checking != answer:
-    redirect('problems.html')
+  answer = request.GET['answerText']
+  if answer != "a1":
+    return render(request, 'wellcome.html')
   else:
-    redirect('answer.html')
-  
+    return render(request,'answer.html')
 
 def answer(request):
   return render(request,'answer.html')
